@@ -120,43 +120,39 @@ scrollBottom.forEach((el)=>observer.observe(el));
 const scrollTop =  document.querySelectorAll(".scroll-top");
 scrollTop.forEach((el)=>observer.observe(el));
 
-
-const form =document.querySelector('form');
-const fullName =document.getElementById('name');
-const email =document.getElementById('email');
-const adress =document.getElementById('adress');
-const phone =document.getElementById('phone');
-const message =document.getElementById('message');
-
-
-function sendEmail(){
-    const bodyMessage = `fullName:${fullName.value}<br> Email:${email.value}
-<br> Email:${email.value} Phone Number:${phone.value}}<br> Message:${message.value}`
-    Email.send({
-        Host : "smtp.elasticemail.com",
-        Username : "arslanejaz61@gmail.com",
-        Password : "72709B98BC67B0515E5C91992DA1DA224956",
-        To : 'arslanejaz61@gmail.com',
-        From : "you@isp.com",
-        Subject : subject.value,
-        Body : bodyMessage
-    }).then(
-        message=>{
-            if (message==0) {
-                Swal.fire({
-                    title: "Good job!",
-                    text: "You clicked the button!",
-                    icon: "success"
-                  }); 
+document.getElementById('contactForm').addEventListener('submit', function(event) {
+    event.preventDefault(); // Prevent form submission
+    
+    // Get form data
+    var formData = {
+        name: document.getElementById('name').value,
+        email: document.getElementById('email').value,
+        address: document.getElementById('address').value,
+        phone: document.getElementById('phone').value,
+        message: document.getElementById('message').value
+    };
+    
+    // Send form data via HTTP POST request
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', 'https://formsubmit.co/arslanejaz61@gmail.com', true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            if (xhr.status === 200) {
+                alert('Message sent successfully!');
+                // Clear form fields after successful submission
+                document.getElementById('contactForm').reset();
+            } else {
+                alert('Error: Unable to send message.');
             }
         }
-    )
-}
+    };
+    xhr.send(JSON.stringify(formData));
+});
 
-form.addEventListener("submit" ,(e)=>{
-    e.preventDefault();
-    sendEmail();
 
+
+    
 })
 
 
